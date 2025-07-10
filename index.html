@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <title>Feliz Aniversário Kaue</title>
@@ -13,55 +14,85 @@
       justify-content: center;
       flex-direction: column;
       cursor: pointer;
-    }#message {
-  color: #ff00ff;
-  font-size: 3em;
-  text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 40px #ff00ff;
-  opacity: 0;
-  transition: opacity 1s;
-}
+      position: relative;
+      color: #ff00ff;
+      font-family: 'Arial Black', Arial, sans-serif;
+      user-select: none;
+    }
 
-#tap {
-  color: #ff00ff;
-  font-size: 2em;
-  text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #ff00ff;
-  animation: blink 1s infinite;
-}
+    #message, #tap {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      text-shadow:
+        0 0 5px #ff00ff,
+        0 0 10px #ff00ff,
+        0 0 20px #ff00ff,
+        0 0 40px #ff00ff;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+      width: 100%;
+    }
 
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.2; }
-}
+    #tap {
+      font-size: 2.5em;
+      animation: blink 1s infinite;
+      opacity: 1;
+      pointer-events: auto;
+      user-select: none;
+    }
 
-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
+    #message {
+      font-size: 3.5em;
+      opacity: 0;
+    }
 
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.2; }
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      user-select: none;
+    }
   </style>
 </head>
 <body>
   <div id="tap">Toque na tela</div>
   <div id="message">Feliz Aniversário Kaue!</div>
-  <canvas id="canvas"></canvas>  <script>
+  <canvas id="canvas"></canvas>
+
+  <script>
     const tap = document.getElementById('tap');
     const message = document.getElementById('message');
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
 
     let fireworks = [];
     let particles = [];
     let showMessage = false;
 
     document.body.addEventListener('click', () => {
-      tap.style.display = 'none';
-      showMessage = true;
-      message.style.opacity = 1;
-      launchFirework();
+      if (!showMessage) {
+        tap.style.opacity = 0;
+        showMessage = true;
+        message.style.opacity = 1;
+        launchFirework();
+      }
     });
 
     function launchFirework() {
@@ -102,7 +133,7 @@ canvas {
       this.update = () => {
         this.x += Math.cos(this.angle) * this.speed;
         this.y += Math.sin(this.angle) * this.speed;
-        this.alpha -= 0.01;
+        this.alpha -= 0.015;
         if (this.alpha <= 0) {
           particles.splice(particles.indexOf(this), 1);
         }
@@ -121,8 +152,8 @@ canvas {
       ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      if (showMessage) {
-        if (Math.random() < 0.05) launchFirework();
+      if (showMessage && Math.random() < 0.05) {
+        launchFirework();
       }
 
       fireworks.forEach(fw => {
@@ -137,10 +168,6 @@ canvas {
     }
 
     animate();
-
-    window.addEventListener('resize', () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    });
-  </script></body>
+  </script>
+</body>
 </html>
