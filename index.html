@@ -1,0 +1,59 @@
+<!DOCTYPE html><html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Feliz Aniversário Kaue</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      cursor: pointer;
+    }#message {
+  color: #ff00ff;
+  font-size: 3em;
+  text-shadow:
+    0 0 5px #ff00ff,
+    0 0 10px #ff00ff,
+    0 0 20px #ff00ff,
+    0 0 40px #ff00ff;
+  display: none;
+}
+
+#tap {
+  color: #ff00ff;
+  font-size: 2em;
+  text-shadow:
+    0 0 5px #ff00ff,
+    0 0 10px #ff00ff,
+    0 0 20px #ff00ff;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+  </style>
+</head>
+<body>
+  <div id="tap">Toque na tela</div>
+  <div id="message">Feliz Aniversário Kaue!</div>
+  <canvas id="canvas"></canvas>  <script>
+    const tap = document.getElementById('tap');
+    const message = document.getElementById('message');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    canvas
