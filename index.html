@@ -16,21 +16,15 @@
     }#message {
   color: #ff00ff;
   font-size: 3em;
-  text-shadow:
-    0 0 5px #ff00ff,
-    0 0 10px #ff00ff,
-    0 0 20px #ff00ff,
-    0 0 40px #ff00ff;
-  display: none;
+  text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 40px #ff00ff;
+  opacity: 0;
+  transition: opacity 1s;
 }
 
 #tap {
   color: #ff00ff;
   font-size: 2em;
-  text-shadow:
-    0 0 5px #ff00ff,
-    0 0 10px #ff00ff,
-    0 0 20px #ff00ff;
+  text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #ff00ff;
   animation: blink 1s infinite;
 }
 
@@ -61,10 +55,12 @@ canvas {
 
     let fireworks = [];
     let particles = [];
+    let showMessage = false;
 
     document.body.addEventListener('click', () => {
       tap.style.display = 'none';
-      message.style.display = 'block';
+      showMessage = true;
+      message.style.opacity = 1;
       launchFirework();
     });
 
@@ -124,6 +120,10 @@ canvas {
       requestAnimationFrame(animate);
       ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      if (showMessage) {
+        if (Math.random() < 0.05) launchFirework();
+      }
 
       fireworks.forEach(fw => {
         fw.update();
