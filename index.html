@@ -1,60 +1,61 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<title>Feliz Aniversário Kaue</title>
-<style>
-  body {
-    margin: 0;
-    background: black;
-    overflow: hidden;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    cursor: pointer;
-    font-family: 'Arial Black', Arial, sans-serif;
-  }
+  <meta charset="UTF-8" />
+  <title>Feliz Aniversário Kaue</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      cursor: pointer;
+      font-family: 'Arial Black', Arial, sans-serif;
+    }
 
-  #tap, #message {
-    position: relative;
-    z-index: 1000; /* muito alto pra ficar na frente */
-    color: #ff00ff;
-    text-align: center;
-    user-select: none;
-    text-shadow:
-      0 0 5px #ff00ff,
-      0 0 10px #ff00ff,
-      0 0 20px #ff00ff,
-      0 0 40px #ff00ff;
-    transition: opacity 0.5s ease;
-  }
+    #tap, #message {
+      position: relative;
+      z-index: 1000;
+      color: #ff00ff;
+      text-align: center;
+      user-select: none;
+      text-shadow:
+        0 0 5px #ff00ff,
+        0 0 10px #ff00ff,
+        0 0 20px #ff00ff,
+        0 0 40px #ff00ff;
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
 
-  #tap {
-    font-size: 3em;
-    animation: blink 1.2s infinite;
-    opacity: 1;
-  }
+    #tap {
+      font-size: 3em;
+      animation: blink 1.2s infinite;
+      opacity: 1;
+    }
 
-  #message {
-    font-size: 4em;
-    opacity: 0;
-  }
+    #message {
+      font-size: 4em;
+      opacity: 0;
+      transform: scale(0.8);
+    }
 
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-  }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
 
-  canvas {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    z-index: 0;
-    pointer-events: none;
-  }
-</style>
+    canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+    }
+  </style>
 </head>
 <body>
   <div id="tap">Toque na tela</div>
@@ -80,9 +81,11 @@
 
     document.body.addEventListener('click', () => {
       if (!showMessage) {
-        tap.style.opacity = 0;
+        tap.style.opacity = 0;               // Esconde o “Toque na tela”
+        tap.style.pointerEvents = 'none';    // Remove interação do elemento
         showMessage = true;
-        message.style.opacity = 1;
+        message.style.opacity = 1;           // Mostra a mensagem de parabéns
+        message.style.transform = 'scale(1)'; // Efeito suave de escala
         launchFirework();
       }
     });
