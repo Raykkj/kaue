@@ -37,10 +37,19 @@
       opacity: 1;
     }
 
+    #tap.hide {
+      opacity: 0;
+      pointer-events: none;
+    }
+
     #message {
       font-size: 4em;
       opacity: 0;
       transform: scale(0.8);
+    }
+
+    #tap.hidden {
+      display: none;
     }
 
     @keyframes blink {
@@ -81,11 +90,15 @@
 
     document.body.addEventListener('click', () => {
       if (!showMessage) {
-        tap.style.opacity = 0;               // Esconde o “Toque na tela”
-        tap.style.pointerEvents = 'none';    // Remove interação do elemento
+        tap.classList.add('hide'); // Aplica opacidade zero
+        // Depois da transição, remove do DOM flow:
+        setTimeout(() => {
+          tap.classList.add('hidden');
+        }, 800);
+
         showMessage = true;
-        message.style.opacity = 1;           // Mostra a mensagem de parabéns
-        message.style.transform = 'scale(1)'; // Efeito suave de escala
+        message.style.opacity = 1;
+        message.style.transform = 'scale(1)';
         launchFirework();
       }
     });
