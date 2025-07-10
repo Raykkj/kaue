@@ -37,19 +37,22 @@
       opacity: 1;
     }
 
+    /* Classe que some o toque na tela com fade */
     #tap.hide {
       opacity: 0;
+      animation: none; /* para o blink */
       pointer-events: none;
+    }
+
+    /* Depois do fade, tira do fluxo */
+    #tap.hidden {
+      display: none;
     }
 
     #message {
       font-size: 4em;
       opacity: 0;
       transform: scale(0.8);
-    }
-
-    #tap.hidden {
-      display: none;
     }
 
     @keyframes blink {
@@ -90,11 +93,10 @@
 
     document.body.addEventListener('click', () => {
       if (!showMessage) {
-        tap.classList.add('hide'); // Aplica opacidade zero
-        // Depois da transição, remove do DOM flow:
+        tap.classList.add('hide'); // Faz fade e para o blink
         setTimeout(() => {
-          tap.classList.add('hidden');
-        }, 800);
+          tap.classList.add('hidden'); // Remove do fluxo de vez
+        }, 800); // mesmo tempo do transition
 
         showMessage = true;
         message.style.opacity = 1;
