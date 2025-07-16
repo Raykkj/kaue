@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<!DOCTYPE html><html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <title>Feliz Aniversário Kaue</title>
@@ -14,95 +13,55 @@
       justify-content: center;
       flex-direction: column;
       cursor: pointer;
-      font-family: 'Arial Black', Arial, sans-serif;
-    }
+    }#message {
+  color: #ff00ff;
+  font-size: 3em;
+  text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 40px #ff00ff;
+  opacity: 0;
+  transition: opacity 1s;
+}
 
-    #tap, #message {
-      position: relative;
-      z-index: 1000;
-      color: #ff00ff;
-      text-align: center;
-      user-select: none;
-      text-shadow:
-        0 0 5px #ff00ff,
-        0 0 10px #ff00ff,
-        0 0 20px #ff00ff,
-        0 0 40px #ff00ff;
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
+#tap {
+  color: #ff00ff;
+  font-size: 2em;
+  text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #ff00ff;
+  animation: blink 1s infinite;
+}
 
-    #tap {
-      font-size: 3em;
-      animation: blink 1.2s infinite;
-      opacity: 1;
-    }
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
 
-    /* Classe que some o toque na tela com fade */
-    #tap.hide {
-      opacity: 0;
-      animation: none; /* para o blink */
-      pointer-events: none;
-    }
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
 
-    /* Depois do fade, tira do fluxo */
-    #tap.hidden {
-      display: none;
-    }
-
-    #message {
-      font-size: 4em;
-      opacity: 0;
-      transform: scale(0.8);
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-
-    canvas {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      z-index: 0;
-      pointer-events: none;
-    }
   </style>
 </head>
 <body>
-  <div id="tap">Toque na tela</div>
-  <div id="message">Feliz Aniversário Kaue!</div>
-  <canvas id="canvas"></canvas>
-
-  <script>
+  <div id="tap">clique na tela</div>
+  <div id="message">maisa morango</div>
+  <canvas id="canvas"></canvas>  <script>
     const tap = document.getElementById('tap');
     const message = document.getElementById('message');
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
 
-    function resize() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    resize();
-    window.addEventListener('resize', resize);
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
     let fireworks = [];
     let particles = [];
     let showMessage = false;
 
     document.body.addEventListener('click', () => {
-      if (!showMessage) {
-        tap.classList.add('hide'); // Faz fade e para o blink
-        setTimeout(() => {
-          tap.classList.add('hidden'); // Remove do fluxo de vez
-        }, 800); // mesmo tempo do transition
-
-        showMessage = true;
-        message.style.opacity = 1;
-        message.style.transform = 'scale(1)';
-        launchFirework();
-      }
+      tap.style.display = 'none';
+      showMessage = true;
+      message.style.opacity = 1;
+      launchFirework();
     });
 
     function launchFirework() {
@@ -143,7 +102,7 @@
       this.update = () => {
         this.x += Math.cos(this.angle) * this.speed;
         this.y += Math.sin(this.angle) * this.speed;
-        this.alpha -= 0.015;
+        this.alpha -= 0.01;
         if (this.alpha <= 0) {
           particles.splice(particles.indexOf(this), 1);
         }
@@ -162,8 +121,8 @@
       ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      if (showMessage && Math.random() < 0.05) {
-        launchFirework();
+      if (showMessage) {
+        if (Math.random() < 0.05) launchFirework();
       }
 
       fireworks.forEach(fw => {
@@ -178,6 +137,10 @@
     }
 
     animate();
-  </script>
-</body>
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script></body>
 </html>
